@@ -1,0 +1,172 @@
+# do riscv-cpu_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying /home/benni/opt/quartus/20.1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/ALU.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/ALU.v 
+# -- Compiling module ALU
+# 
+# Top level modules:
+# 	ALU
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/RegisterFile.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/RegisterFile.v 
+# -- Compiling module RegisterFile
+# 
+# Top level modules:
+# 	RegisterFile
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/RiscVCore.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/RiscVCore.v 
+# -- Compiling module RiscVCore
+# 
+# Top level modules:
+# 	RiscVCore
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/ProgramCounter.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/ProgramCounter.v 
+# -- Compiling module ProgramCounter
+# 
+# Top level modules:
+# 	ProgramCounter
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/Register.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/Register.v 
+# -- Compiling module Register
+# 
+# Top level modules:
+# 	Register
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/InstructionExtractor.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/InstructionExtractor.v 
+# -- Compiling module InstructionExtractor
+# 
+# Top level modules:
+# 	InstructionExtractor
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/BranchTester.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/BranchTester.v 
+# -- Compiling module BranchTester
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(12): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(13): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(14): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(15): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(16): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# ** Warning: /home/benni/Schule/sfz/riscv-cpu/BranchTester.v(17): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# 
+# Top level modules:
+# 	BranchTester
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 6
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/testing.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/testing.v 
+# -- Compiling module testing
+# 
+# Top level modules:
+# 	testing
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/MemoryController.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/MemoryController.v 
+# -- Compiling module MemoryController
+# 
+# Top level modules:
+# 	MemoryController
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/SignExtender.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/SignExtender.v 
+# -- Compiling module SignExtender
+# 
+# Top level modules:
+# 	SignExtender
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/InstructionDecoder.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/InstructionDecoder.v 
+# -- Compiling module InstructionDecoder
+# 
+# Top level modules:
+# 	InstructionDecoder
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/testing.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 12:27:32 on Jan 07,2021
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/benni/Schule/sfz/riscv-cpu" /home/benni/Schule/sfz/riscv-cpu/testing.v 
+# -- Compiling module testing
+# 
+# Top level modules:
+# 	testing
+# End time: 12:27:32 on Jan 07,2021, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs="+acc"  testing
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs=""+acc"" testing 
+# Start time: 12:27:32 on Jan 07,2021
+# Loading work.testing
+# Loading work.RiscVCore
+# Loading work.InstructionExtractor
+# Loading work.InstructionDecoder
+# Loading work.BranchTester
+# Loading work.ALU
+# Loading work.RegisterFile
+# Loading work.ProgramCounter
+# Loading work.Register
+# Loading work.SignExtender
+# Loading work.MemoryController
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'rst'. The port definition is at: /home/benni/Schule/sfz/riscv-cpu/RiscVCore.v(13).
+#    Time: 0 ps  Iteration: 0  Instance: /testing/cpu File: /home/benni/Schule/sfz/riscv-cpu/testing.v Line: 20
+# ** Warning: (vsim-3015) [PCDPC] - Port size (30) does not match connection size (32) for port 'data_in'. The port definition is at: /home/benni/Schule/sfz/riscv-cpu/ProgramCounter.v(2).
+#    Time: 0 ps  Iteration: 0  Instance: /testing/cpu/pc File: /home/benni/Schule/sfz/riscv-cpu/RiscVCore.v Line: 123
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'oe'. The port definition is at: /home/benni/Schule/sfz/riscv-cpu/Register.v(8).
+#    Time: 0 ps  Iteration: 0  Instance: /testing/cpu/ir File: /home/benni/Schule/sfz/riscv-cpu/RiscVCore.v Line: 136
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run 0 sec
+run
+run
+run
+run
+# End time: 13:01:00 on Jan 07,2021, Elapsed time: 0:33:28
+# Errors: 0, Warnings: 3

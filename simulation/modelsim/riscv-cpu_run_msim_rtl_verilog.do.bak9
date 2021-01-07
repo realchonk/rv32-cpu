@@ -1,0 +1,25 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/ALU.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/RegisterFile.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/RiscVCore.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/ProgramCounter.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/Register.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/InstructionExtractor.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/BranchTester.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/testing.v}
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/InstructionDecoder.v}
+
+vlog -vlog01compat -work work +incdir+/home/benni/Schule/sfz/riscv-cpu {/home/benni/Schule/sfz/riscv-cpu/testing.v}
+
+vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -voptargs="+acc"  testing
+
+add wave *
+view structure
+view signals
+run 0 sec
