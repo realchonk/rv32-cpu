@@ -1,6 +1,3 @@
 output_files
 *.bak
-simulation
-timing
-incremental_db
-db
+test
