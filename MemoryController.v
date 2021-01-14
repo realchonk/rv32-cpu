@@ -8,12 +8,16 @@ module MemoryController(
 	input clk
 );
 
-reg [7:0] ram [255:0][3:0];
+parameter MEM_ADDR = 32'h0000_0000;
+parameter MEM_SIZE = 1024;
+
+wire enabled = (size != 2'b00) && (addr >= MEM_ADDR) && (addr < (MEM_ADDR + MEM_SIZE));
+reg [7:0] ram [(MEM_SIZE>>2)-1:0][3:0];
 reg [31:0] buffer = 0;
 
 always@ (posedge clk)
 begin
-	if (addr < 1024 && !rw)
+	if (enabled && !rw)
 		case (size)
 		2'b01: buffer <= ram[addr[9:2]][addr[1:0]];
 		2'b10: buffer <= ram[addr[9:2]][addr[1:0]] | (ram[addr[9:2]][addr[1:0] + 1] << 8);
@@ -30,7 +34,7 @@ end
 
 always@ (posedge clk)
 begin
-	if (addr < 1024 && rw)
+	if (enabled && rw)
 		case (size)
 		2'b01:
 			ram[addr[9:2]][addr[1:0]] <= data[7:0];
@@ -49,42 +53,47 @@ begin
 		endcase
 end
 
-assign data = (size && !rw) ? buffer : 32'bz;
+assign data = (enabled && !rw) ? buffer : 32'bz;
 
 integer i;
 initial begin
-	for (i=0; i<256; i = i + 1)
+	for (i=0; i< (MEM_SIZE>>2); i = i + 1)
 	begin
 		ram[i][0] <= 8'b00;
 		ram[i][1] <= 8'b00;
 		ram[i][2] <= 8'b00;
 		ram[i][3] <= 8'b00;
 	end
-	// 00a00193
-	ram[0][3] <= 8'h00;
-	ram[0][2] <= 8'ha0;
-	ram[0][1] <= 8'h01;
-	ram[0][0] <= 8'h93;
-	// 00310863
+	// 800000b7: lui x1, 0x80000000
+	ram[0][3] <= 8'h80;
+	ram[0][2] <= 8'h00;
+	ram[0][1] <= 8'h00;
+	ram[0][0] <= 8'hb7;
+	// 0000a103: lw x2, 0(x1)
 	ram[1][3] <= 8'h00;
-	ram[1][2] <= 8'h31;
-	ram[1][1] <= 8'h08;
-	ram[1][0] <= 8'h63;
-	// 02008093
-	ram[2][3] <= 8'h02;
-	ram[2][2] <= 8'h00;
-	ram[2][1] <= 8'h80;
-	ram[2][0] <= 8'h93;
-	// 00110113
+	ram[1][2] <= 8'h00;
+	ram[1][1] <= 8'ha1;
+	ram[1][0] <= 8'h03;
+	// 01010113: adi x2, x2, 16
+	ram[2][3] <= 8'h01;
+	ram[2][2] <= 8'h01;
+	ram[2][1] <= 8'h01;
+	ram[2][0] <= 8'h13;
+	// 0020a023: sw x2, 0(x1)
 	ram[3][3] <= 8'h00;
-	ram[3][2] <= 8'h11;
-	ram[3][1] <= 8'h01;
-	ram[3][0] <= 8'h13;
-	// ff5ff06f
-	ram[4][3] <= 8'hff;
-	ram[4][2] <= 8'h5f;
-	ram[4][1] <= 8'hf0;
-	ram[4][0] <= 8'h6f;
+	ram[3][2] <= 8'h20;
+	ram[3][1] <= 8'ha0;
+	ram[3][0] <= 8'h23;
+	// 00100073: ebreak
+	ram[4][3] <= 8'h00;
+	ram[4][2] <= 8'h10;
+	ram[4][1] <= 8'h00;
+	ram[4][0] <= 8'h73;
+	// 00000013
+	ram[5][3] <= 8'h00;
+	ram[5][2] <= 8'h00;
+	ram[5][1] <= 8'h00;
+	ram[5][0] <= 8'h13;
 end
 
 endmodule

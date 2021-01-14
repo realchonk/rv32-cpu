@@ -43,7 +43,6 @@ begin
 	3'b001:
 	begin
 		if (type == 0) control_word <= `MHLT | `MT_RST;
-		else if (type == 7) control_word <= `MT_RST;
 		else case (opcode[6:2])
 		5'b01100: // ALU
 			control_word <= `MRS1_EN | `MRS2_EN | `MALU_OE | `MRD_WE | `MT_RST;
@@ -65,6 +64,10 @@ begin
 			control_word <= `MPC_OE | `MIMM_ENB | `MRD_WE;
 		5'b11000: // BRANCH
 			control_word <= `MF3_VAL(4'b1000) | `MF3_OV | `MRS1_EN | `MRS2_EN | `MALU_OE;
+		5'b00011: // FENCE
+			control_word <= `MT_RST;
+		5'b11100: // ECALL/EBREAK
+			control_word <= (instr_in[20] ? `MHLT : 0) | `MT_RST;
 		endcase
 	end
 	3'b010:

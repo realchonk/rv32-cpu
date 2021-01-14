@@ -121,36 +121,63 @@ module DE10_LITE_Golden_Top(
 `endif
 );
 
-wire clk;
-wire rst = ARDUINO_RESET_N;
+// Clock and Reset
 
-wire nop_instruction = 32'h00000013;
-wire [31:0] mem_addr;
-wire [31:0] mem_data;
-wire mem_we, mem_oe;
-wire [3:0] mem_mask;
+wire base_clk, mem_clk, cpu_clk;
+wire rst, hlt;
 
 ClockDivider clk_div(
-	.clk_in(MAX10_CLK1_50),
-	.clk_out(clk),
+	.clk_in(MAX10_CLK1_50 & !hlt),
+	.clk_out(base_clk),
+	.rst(rst)
+);
+ClockGenerator clk_gen(
+	.base_clk(base_clk),
+	.cpu_clk(cpu_clk),
+	.mem_clk(mem_clk),
 	.rst(rst)
 );
 
-defparam clk_div.DIVISOR = 50_000_000;
-defparam clk_div.FIRST_EDGE = 1;
+// CPU and Memory
+
+wire [31:0] mem_addr, mem_data;
+wire [1:0] mem_size;
+wire mem_rw;
 
 RiscVCore cpu(
 	.mem_addr(mem_addr),
-	.mem_data(mem_oe? nop_instruction : 32'bz),
+	.mem_data(mem_data),
 	
-	.mem_we(mem_we),
-	.mem_oe(mem_oe),
-	.mem_mask(mem_mask),
+	.mem_size(mem_size),
+	.mem_rw(mem_rw),
 	
-	.clk(clk),
-	.rst(rst)
+	.clk(cpu_clk),
+	.rst(rst),
+	.hlt(hlt)
+);
+MemoryController mem(
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	
+	.clk(mem_clk)
+);
+IOController io(
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	.clk(mem_clk),
+	
+	.LEDR(LEDR),
+	.SW(SW)
 );
 
+// Assignments
 
+assign rst = ARDUINO_RESET_N;
+defparam clk_div.DIVISOR = 10000000;
+defparam clk_div.FIRST_EDGE = 0;
 
 endmodule

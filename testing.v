@@ -5,11 +5,15 @@ reg base_clk = 1;
 wire hlt;
 always #1 if(!hlt) base_clk = ~base_clk;
 
-reg cpu_clk = 0;
-reg mem_clk = 0;
+wire cpu_clk, mem_clk;
 
-always@ (negedge base_clk) cpu_clk <= ~cpu_clk;
-always@ (posedge base_clk) mem_clk <= ~mem_clk;
+ClockGenerator cgen(
+	.base_clk(base_clk),
+	.rst(0),
+	
+	.cpu_clk(cpu_clk),
+	.mem_clk(mem_clk)
+);
 
 wire [31:0] mem_addr, mem_data;
 wire mem_rw;
@@ -17,10 +21,12 @@ wire [1:0] mem_size;
 
 wire [31:0] a, b, c;
 
+wire [9:0] SW, LEDR;
+
 RiscVCore cpu(
 	.mem_addr(mem_addr),
 	.mem_data(mem_data),
-	
+		
 	.mem_rw(mem_rw),
 	.mem_size(mem_size),
 	
@@ -39,6 +45,17 @@ MemoryController memctrl(
 	.rw(mem_rw),
 	.size(mem_size),
 	.clk(mem_clk)
+);
+
+IOController ioctrl(
+	.addr(mem_addr),
+	.data(mem_data),
+	.rw(mem_rw),
+	.size(mem_size),
+	.clk(mem_clk),
+	
+	.SW(SW),
+	.LEDR(LEDR)
 );
 
 endmodule

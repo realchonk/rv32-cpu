@@ -9,8 +9,8 @@ module RiscVCore(
 					  debug_b,
 					  debug_c,
 	
-	output hlt,
-	input clk, rst
+	output hlt,						// Halt
+	input clk, rst					// Clock, Reset
 );
 
 `define T_MAX 3'd7
@@ -170,7 +170,7 @@ assign debug_a = bus_a;
 assign debug_b = bus_b;
 assign debug_c = bus_c;
 
-wire T_rst2 = (instr_type == 5) && !branch_taken;
+wire T_rst2 = ((instr_type == 5) && !branch_taken) || ((opcode == 7'b0010011) && (rd == 5'b0));
 always@ (negedge clk, posedge rst)
 begin
 	if (rst) T <= 0;
