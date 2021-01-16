@@ -1,9 +1,18 @@
 `timescale 1ps/1ps
 module testing();
 
-reg base_clk = 1;
+reg pre_clk = 1;
+wire base_clk;
 wire hlt;
-always #1 if(!hlt) base_clk = ~base_clk;
+always #1 if(!hlt) pre_clk = ~pre_clk;
+
+ClockDivider clk_div (
+	.clk_in(pre_clk),
+	.clk_out(base_clk)
+);
+
+defparam clk_div.FIRST_EDGE = 0;
+defparam clk_div.DIVISOR = 2;
 
 wire cpu_clk, mem_clk;
 
@@ -39,7 +48,7 @@ RiscVCore cpu(
 	.rst(0)
 );
 
-MemoryController memctrl(
+MemoryController mem(
 	.addr(mem_addr),
 	.data(mem_data),
 	.rw(mem_rw),
@@ -57,5 +66,6 @@ IOController ioctrl(
 	.SW(SW),
 	.LEDR(LEDR)
 );
+assign SW = 32;
 
 endmodule

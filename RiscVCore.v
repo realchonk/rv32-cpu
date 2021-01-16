@@ -8,6 +8,8 @@ module RiscVCore(
 	output [31:0] debug_a,		// Debug Mirrors of bus a, b, c
 					  debug_b,
 					  debug_c,
+					  
+	output branch_taken,
 	
 	output hlt,						// Halt
 	input clk, rst					// Clock, Reset
@@ -32,7 +34,7 @@ wire pc_oe, pc_we, pc_inc, pc_oe2;
 wire ir_we, mar_we, mar_oe, se_oe, se_en;
 wire imm_ena, imm_enb, imm_enc;
 wire funct3_ov, mdb_en, alu_oe;
-wire T_rst, branch_taken;
+wire T_rst;
 
 assign alu_op = funct3_ov ? alu_op_id : alu_op_ie;
 
@@ -170,12 +172,12 @@ assign debug_a = bus_a;
 assign debug_b = bus_b;
 assign debug_c = bus_c;
 
-wire T_rst2 = ((instr_type == 5) && !branch_taken) || ((opcode == 7'b0010011) && (rd == 5'b0));
-always@ (negedge clk, posedge rst)
-begin
-	if (rst) T <= 0;
-	else if (T_rst2 || T_rst || T == `T_MAX) T <= 0;
-	else T <= T + 1;
+// ((instr_type == 5) && !branch_taken && (T == 3'd3)) || 
+wire T_rst2 = ((opcode == 7'b0010011) && (rd == 5'b0));
+always@ (negedge clk)
+begin 
+	if (rst || T_rst || T_rst2 || T == `T_MAX) T <= 0;
+	else T <= T + 1'b1;
 end
 
 

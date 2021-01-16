@@ -1,5 +1,5 @@
 
-`define make_mask(i) (1 << (i))
+`define make_mask(i) (32'b1 << (i))
 
 // Indexes
 `define PPC_OE		0
@@ -21,6 +21,7 @@
 `define PMDB_EN	16
 `define PALU_OE	17
 `define PSE_OE		18
+`define PBT			19
 `define PF3_VAL	23:20
 `define PMEM_SIZE	25:24
 `define PHLT		30
@@ -47,6 +48,7 @@
 `define MMDB_EN	`make_mask(`PMDB_EN)
 `define MALU_OE	`make_mask(`PALU_OE)
 `define MSE_OE		`make_mask(`PSE_OE)
+`define MBT			`make_mask(`PBT)
 `define MHLT	 	`make_mask(`PHLT)
 `define MT_RST 	`make_mask(`PT_RST)
 

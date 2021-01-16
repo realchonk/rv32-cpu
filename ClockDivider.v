@@ -3,26 +3,26 @@ module ClockDivider(
 	input clk_in, rst
 );
 
-parameter FIRST_EDGE = 1;
+parameter FIRST_EDGE = 1'b1;
 parameter DIVISOR = 2;
 
 reg [$clog2(DIVISOR):0] counter = 0;
 
-always@ (clk_in)
+always@ (posedge clk_in)
 begin
 	if (rst)
 	begin
 		counter <= 0;
-		clk_out <= FIRST_EDGE;
+		clk_out <= ~FIRST_EDGE;
 	end
 	else if (counter == (DIVISOR-1))
 	begin
 		counter <= 0;
 		clk_out <= ~clk_out;
 	end
-	else counter <= counter + 1;
+	else counter <= counter + 1'b1;
 end
 
-initial clk_out <= ~FIRST_EDGE;
+initial clk_out = ~FIRST_EDGE;
 
 endmodule

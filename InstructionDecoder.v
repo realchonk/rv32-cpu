@@ -24,14 +24,14 @@ module InstructionDecoder(
 );
 
 reg [31:0] control_word = 0;
-
 BranchTester bt(
 	.carry(carry),
 	.zero(zero),
 	.lt(lt),
 	.funct3(funct3),
 	
-	.taken(branch_taken)
+	.taken(branch_taken),
+	.check(clk & control_word[`PBT])
 );
 
 
@@ -63,11 +63,12 @@ begin
 		5'b00101: // AUIPC
 			control_word <= `MPC_OE | `MIMM_ENB | `MRD_WE;
 		5'b11000: // BRANCH
-			control_word <= `MF3_VAL(4'b1000) | `MF3_OV | `MRS1_EN | `MRS2_EN | `MALU_OE;
+			control_word <= `MF3_VAL(4'b1000) | `MF3_OV | `MRS1_EN | `MRS2_EN | `MALU_OE | `MBT;
 		5'b00011: // FENCE
 			control_word <= `MT_RST;
 		5'b11100: // ECALL/EBREAK
 			control_word <= (instr_in[20] ? `MHLT : 0) | `MT_RST;
+		default: control_word <= `MHLT;
 		endcase
 	end
 	3'b010:
@@ -81,8 +82,10 @@ begin
 		5'b11001: // JALR
 			control_word <= `MIMM_ENB | `MRS1_EN | `MALU_OE | `MPC_WE | `MT_RST;
 		5'b11000: // BRANCH
-			control_word <= `MPC_WE | `MPC_OE | `MIMM_ENB | `MALU_OE | `MF3_OV | `MF3_VAL(4'b0000) | `MT_RST;
+			control_word <= (branch_taken ? (`MPC_WE | `MPC_OE | `MIMM_ENB | `MALU_OE | `MF3_OV | `MF3_VAL(4'b0000)) : 0) | `MT_RST;
+		default: control_word <= `MHLT;
 		endcase
+	default: control_word <= `MHLT;
 	endcase
 end
 

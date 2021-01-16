@@ -10,8 +10,8 @@
 
 `define ENABLE_ADC_CLOCK
 `define ENABLE_CLOCK1
-`define ENABLE_CLOCK2
-`define ENABLE_SDRAM
+//`define ENABLE_CLOCK2
+//`define ENABLE_SDRAM
 `define ENABLE_HEX0
 `define ENABLE_HEX1
 `define ENABLE_HEX2
@@ -21,9 +21,9 @@
 `define ENABLE_KEY
 `define ENABLE_LED
 `define ENABLE_SW
-`define ENABLE_VGA
-`define ENABLE_ACCELEROMETER
-`define ENABLE_ARDUINO
+//`define ENABLE_VGA
+//`define ENABLE_ACCELEROMETER
+//`define ENABLE_ARDUINO
 `define ENABLE_GPIO
 
 module DE10_LITE_Golden_Top(
@@ -123,14 +123,24 @@ module DE10_LITE_Golden_Top(
 
 // Clock and Reset
 
-wire base_clk, mem_clk, cpu_clk;
+wire base_clk, mem_clk, cpu_clk, pre_clk;
 wire rst, hlt;
+wire branch_taken;
 
+/*
 ClockDivider clk_div(
-	.clk_in(MAX10_CLK1_50 & !hlt),
-	.clk_out(base_clk),
+	.clk_in(MAX10_CLK1_50),
+	.clk_out(pre_clk),
 	.rst(rst)
 );
+defparam clk_div.DIVISOR = 1;
+defparam clk_div.FIRST_EDGE = 1;
+assign base_clk = pre_clk & !hlt;
+*/
+
+assign base_clk = MAX10_CLK1_50 & !hlt;
+
+//assign base_clk = ~KEY[0];
 ClockGenerator clk_gen(
 	.base_clk(base_clk),
 	.cpu_clk(cpu_clk),
@@ -150,6 +160,8 @@ RiscVCore cpu(
 	
 	.mem_size(mem_size),
 	.mem_rw(mem_rw),
+	
+	.branch_taken(branch_taken),
 	
 	.clk(cpu_clk),
 	.rst(rst),
@@ -173,11 +185,22 @@ IOController io(
 	.LEDR(LEDR),
 	.SW(SW)
 );
+SevenSegmentController sseg(
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	.clk(mem_clk),
+	
+	.HEX0(HEX0),
+	.HEX1(HEX1),
+	.HEX2(HEX2),
+	.HEX3(HEX3)
+);
 
 // Assignments
-
-assign rst = ARDUINO_RESET_N;
-defparam clk_div.DIVISOR = 10000000;
-defparam clk_div.FIRST_EDGE = 0;
+assign HEX5[0] = hlt;
+assign HEX5[1] = base_clk;
+assign HEX4 = ~branch_taken;
 
 endmodule

@@ -10,14 +10,14 @@ module InstructionExtractor(
 );
 
 // Source: https://en.wikipedia.org/wiki/RISC-V#ISA_base_and_extensions
-parameter TYPE_ILL	= 0,	// illegal
-			 TYPE_R		= 1,	// register/register
-			 TYPE_I		= 2,	// immediate
-			 TYPE_U		= 3,	// upper immediate
-			 TYPE_S		= 4,	// store
-			 TYPE_B		= 5,	// branch
-			 TYPE_J		= 6,	// jump
-			 TYPE_NOP	= 7;	// unimplemented/ignored
+parameter TYPE_ILL	= 3'd0,	// illegal
+			 TYPE_R		= 3'd1,	// register/register
+			 TYPE_I		= 3'd2,	// immediate
+			 TYPE_U		= 3'd3,	// upper immediate
+			 TYPE_S		= 3'd4,	// store
+			 TYPE_B		= 3'd5,	// branch
+			 TYPE_J		= 3'd6,	// jump
+			 TYPE_NOP	= 3'd7;	// unimplemented/ignored
 
 function [31:0] extract_immed(input [31:0] instr, input [2:0] type);
 	case (type)
