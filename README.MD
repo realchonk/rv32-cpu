@@ -12,11 +12,18 @@ Issues and Pull Requests are appreciated!<br>
 - Upto 4 GiB RAM
 - Von-Neumann Architecture
 - Unaligned Memory Access
-- Simple Memory Controller for testing/evaluation
 - Inspired by: Ben Eaters 8-bit CPU, LMARV-1 (Robert Baruch)
 - No interrupts
 - No Privilleged ISA
 - Phase-Shifted Memory Clock
+
+## Supported Memory Attached Devices
+Device | File
+-------|-----
+Synchronous Static RAM | RAM.v
+ROM | InstructionROM.v
+LEDs & Switches | IOController.v
+4x 7 Segment Display | SevenSegmentController.v
 
 ## Known differences from the specification
 - FENCE and ECALL are NOPs
@@ -26,15 +33,14 @@ Issues and Pull Requests are appreciated!<br>
 
 ## Tested on
 - ModelSim-Altera
+- DE10-Lite (12.5MHz)
 
 ## TODO (priority: top=highest)
 - Finding bugs and fixing them
-- Testing on real hardware
-- More Useful README
 - Documentation and Comments
-- More Optimizations
+- Writing a boot loader
 - Add DDR2 SDR-SDRAM Controller
-- Memory Mapped IO Controller
+- More Useful README
 
 ## How YOU can help me
 I couldn't find any useful and cheap rescources for designing hardware in Verilog.<br>
