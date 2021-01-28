@@ -20,7 +20,7 @@ InstructionROM #(
 
 RAM #(
 	.RAM_START(32'h1000_0000),
-	.RAM_SIZE(16)
+	.RAM_SIZE(256)
 ) ram (
 	.addr(addr),
 	.data(data),

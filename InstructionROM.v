@@ -49,15 +49,14 @@ end
 
 assign data = (enabled && !rw && (size != 2'b00)) ? buffer : 32'bz;
 
-
 /*00*/ assign rom[32'h00] = 32'h800000b7;	// li x1, 0x8000_0000
 /*04*/ assign rom[32'h01] = 32'h00000113;	// li x2, 0
-/*08*/ assign rom[32'h02] = 32'h3ff00193;	// li x3, 4095
+/*08*/ assign rom[32'h02] = 32'h3ff00193;	// li x3, 1023
 /*0c*/ assign rom[32'h03] = 32'h00110113;	// loop: addi x2, x2, 1
 /*10*/ assign rom[32'h04] = 32'h0020a023; // sw x2, 0(x1)
 /*14*/ assign rom[32'h05] = 32'h0020a223;	// sw x2, 4(x1)
 /*18*/ assign rom[32'h06] = 32'hfe311ae3;	// bne x2, x3, loop
-/*1c*/ assign rom[32'h07] = 32'h00000013;	// ebreak
+/*1c*/ assign rom[32'h07] = 32'h00000013;	// 
 /*20*/ assign rom[32'h08] = 32'h00000013;	// 
 /*24*/ assign rom[32'h09] = 32'h00000013;	// 
 /*28*/ assign rom[32'h0a] = 32'h00000013;	// 

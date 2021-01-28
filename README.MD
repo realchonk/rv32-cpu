@@ -30,6 +30,7 @@ LEDs & Switches | IOController.v
 - EBREAK halts the processor (hlt=1)
 
 ## Known bugs
+- reset doesn't work
 
 ## Tested on
 - ModelSim-Altera
@@ -38,9 +39,11 @@ LEDs & Switches | IOController.v
 ## TODO (priority: top=highest)
 - Finding bugs and fixing them
 - Documentation and Comments
+- Adding GPIO pins
 - Writing a boot loader
 - Add DDR2 SDR-SDRAM Controller
 - More Useful README
+- Extending the architecture
 
 ## How YOU can help me
 I couldn't find any useful and cheap rescources for designing hardware in Verilog.<br>

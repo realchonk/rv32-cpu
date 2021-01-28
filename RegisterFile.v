@@ -12,7 +12,7 @@ module RegisterFile(
 integer i;
 reg [31:0] regs [30:0];
 
-always@ (posedge clk)
+always@ (posedge clk, posedge rst)
 begin
 	if (rst)
 	begin

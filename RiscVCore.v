@@ -2,22 +2,23 @@ module RiscVCore(
 	output [31:0] mem_addr,		// Memory Address
 	inout [31:0] mem_data,		// Memory Data
 	
-	output mem_rw,					// Read/Write
+	output mem_rw,					// Read=0/Write=1
 	output [1:0] mem_size,		// 0=disabled 1=byte(8) 2=hword(16) 3=word(32)
 
 	output [31:0] debug_a,		// Debug Mirrors of bus a, b, c
 					  debug_b,
 					  debug_c,
 					  
-	output branch_taken,
+	output branch_taken,			// Branch was taken
+	output instr_finish,			// Finished executing instruction
 	
 	output hlt,						// Halt
 	input clk, rst					// Clock, Reset
 );
 
-`define T_MAX 3'd7
+`define T_MAX 3'd7	// Maximal number of steps for T(iming counter)
 
-reg [2:0] T = 0;
+reg [2:0] T = 0;		// Timing Counter
 
 wire [31:0] instruction;
 wire [31:0] bus_a, bus_b, bus_c;
@@ -36,6 +37,7 @@ wire imm_ena, imm_enb, imm_enc;
 wire funct3_ov, mdb_en, alu_oe;
 wire T_rst;
 
+// overwrite alu_op if funct3_ov is enabled
 assign alu_op = funct3_ov ? alu_op_id : alu_op_ie;
 
 InstructionExtractor ie(
@@ -60,10 +62,12 @@ InstructionDecoder id(
 	.rs2(rs2),
 	.rd(rd),
 	
+	// ALU flags
 	.carry(alu_carry),
 	.zero(alu_zero),
 	.lt(alu_lt),
 	
+	// Control Wires
 	.pc_oe(pc_oe),
 	.pc_we(pc_we),
 	.pc_inc(pc_inc),
@@ -92,6 +96,7 @@ InstructionDecoder id(
 	.clk(clk)
 );
 
+// Arithmetic/Logic Unit
 ALU alu(
 	.a(bus_a),
 	.b(bus_b),
@@ -135,6 +140,8 @@ ProgramCounter pc(
 	.clk(clk),
 	.rst(rst)
 );
+
+// Instruction Register (00000013 = nop)
 Register #(.DEPTH(32), .INIT_VALUE(32'h00000013)) ir(
 	.data_in(mem_data),
 	.data_out(instruction),
@@ -145,6 +152,8 @@ Register #(.DEPTH(32), .INIT_VALUE(32'h00000013)) ir(
 	.clk(clk),
 	.rst(rst)
 );
+
+// Memory Address Register
 Register #(.DEPTH(32)) mar(
 	.data_in(bus_c),
 	.data_out(mem_addr),
@@ -155,6 +164,7 @@ Register #(.DEPTH(32)) mar(
 	.clk(clk),
 	.rst(rst)
 );
+
 SignExtender se(
 	.data_in(mem_data),
 	.data_out(bus_c),
@@ -172,11 +182,13 @@ assign debug_a = bus_a;
 assign debug_b = bus_b;
 assign debug_c = bus_c;
 
+assign instr_finish = T_rst || T_rst2 || (T == `T_MAX);
+
 // ((instr_type == 5) && !branch_taken && (T == 3'd3)) || 
 wire T_rst2 = ((opcode == 7'b0010011) && (rd == 5'b0));
 always@ (negedge clk)
 begin 
-	if (rst || T_rst || T_rst2 || T == `T_MAX) T <= 0;
+	if (rst || instr_finish) T <= 0;
 	else T <= T + 1'b1;
 end
 

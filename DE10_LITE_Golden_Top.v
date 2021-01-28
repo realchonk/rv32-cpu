@@ -127,18 +127,14 @@ wire base_clk, mem_clk, cpu_clk, pre_clk;
 wire rst, hlt;
 wire branch_taken;
 
-/*
 ClockDivider clk_div(
 	.clk_in(MAX10_CLK1_50),
 	.clk_out(pre_clk),
 	.rst(rst)
 );
-defparam clk_div.DIVISOR = 1;
+defparam clk_div.DIVISOR = 100_000;
 defparam clk_div.FIRST_EDGE = 1;
 assign base_clk = pre_clk & !hlt;
-*/
-
-assign base_clk = MAX10_CLK1_50 & !hlt;
 
 //assign base_clk = ~KEY[0];
 ClockGenerator clk_gen(
@@ -153,6 +149,7 @@ ClockGenerator clk_gen(
 wire [31:0] mem_addr, mem_data;
 wire [1:0] mem_size;
 wire mem_rw;
+wire instr_finish;
 
 RiscVCore cpu(
 	.mem_addr(mem_addr),
@@ -162,6 +159,7 @@ RiscVCore cpu(
 	.mem_rw(mem_rw),
 	
 	.branch_taken(branch_taken),
+	.instr_finish(instr_finish),
 	
 	.clk(cpu_clk),
 	.rst(rst),
@@ -175,7 +173,7 @@ MemoryController mem(
 	
 	.clk(mem_clk)
 );
-IOController io(
+IOController #(.IO_ADDR(32'h8000_0000)) io (
 	.addr(mem_addr),
 	.data(mem_data),
 	.size(mem_size),
@@ -185,7 +183,7 @@ IOController io(
 	.LEDR(LEDR),
 	.SW(SW)
 );
-SevenSegmentController sseg(
+SevenSegmentController #(.ADDR(32'h8000_0004)) sseg (
 	.addr(mem_addr),
 	.data(mem_data),
 	.size(mem_size),
@@ -198,9 +196,28 @@ SevenSegmentController sseg(
 	.HEX3(HEX3)
 );
 
+PerformanceCounter #(.ADDR(32'h8000_0008)) instr_counter (
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	.clk(mem_clk),
+	.inc(instr_finish)
+);
+PerformanceCounter #(.ADDR(32'h8000_000c)) clock_counter (
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	.clk(mem_clk),
+	.inc(cpu_clk)
+);
+
 // Assignments
-assign HEX5[0] = hlt;
-assign HEX5[1] = base_clk;
-assign HEX4 = ~branch_taken;
+assign HEX5[0] = ~hlt;
+assign HEX5[1] = ~base_clk;
+assign HEX5[2] = ~branch_taken;
+assign HEX5[3] = ~instr_finish;
+assign HEX5[7:4] = 4'b1111;
 
 endmodule
