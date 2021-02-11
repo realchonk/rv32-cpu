@@ -212,6 +212,14 @@ PerformanceCounter #(.ADDR(32'h8000_000c)) clock_counter (
 	.clk(mem_clk),
 	.inc(cpu_clk)
 );
+GPIOController #(.ADDR(32'h8000_0010)) gpio (
+	.addr(mem_addr),
+	.data(mem_data),
+	.size(mem_size),
+	.rw(mem_rw),
+	.clk(mem_clk),
+	.gpio(GPIO)
+);
 
 // Assignments
 assign HEX5[0] = ~hlt;

@@ -32,7 +32,7 @@ endfunction
 
 function [2:0] determine_type(input [6:0] opcode);
 	if (opcode[1:0] != 2'b11) determine_type = TYPE_ILL;
-	else casez (opcode[6:2])
+	else case (opcode[6:2])
 	5'b11001:	determine_type = TYPE_R;	// JALR
 	5'b01100:	determine_type = TYPE_R;	// ALU
 		
@@ -55,7 +55,7 @@ function [2:0] determine_type(input [6:0] opcode);
 	endcase
 endfunction
 
-wire   is_shift= ((opcode & 7'b1011111) == 7'b0010011) && (funct3[1:0] == 2'b0);
+wire   is_shift= ((opcode & 7'b1011111) == 7'b0010011) && (funct3[1:0] == 2'b01);
 assign opcode 	= 																					  instr[6:0];
 assign rd		= ((type != TYPE_S) && (type != TYPE_B))								? instr[11: 7] : 5'b0;
 assign funct3	= ((type != TYPE_U) && (type != TYPE_J))								? instr[14:12] : 3'b0;

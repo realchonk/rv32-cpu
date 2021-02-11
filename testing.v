@@ -1,20 +1,12 @@
 `timescale 1ps/1ps
 module testing();
 
-reg pre_clk = 1;
-wire base_clk;
+reg base_clk = 1	;
 wire hlt;
-always #1 if(!hlt) pre_clk = ~pre_clk;
-
-ClockDivider clk_div (
-	.clk_in(pre_clk),
-	.clk_out(base_clk)
-);
-
-defparam clk_div.FIRST_EDGE = 0;
-defparam clk_div.DIVISOR = 2;
+always #1 if(!hlt) base_clk = ~base_clk;
 
 wire cpu_clk, mem_clk;
+wire [31:0] GPIO = 33;
 
 ClockGenerator cgen(
 	.base_clk(base_clk),
@@ -65,6 +57,15 @@ IOController ioctrl(
 	
 	.SW(SW),
 	.LEDR(LEDR)
+);
+GPIOController #(.ADDR(32'h8000_0010)) gpio (
+	.addr(mem_addr),
+	.data(mem_data),
+	.rw(mem_rw),
+	.size(mem_size),
+	.clk(mem_clk),
+	
+	.gpio(GPIO)
 );
 assign SW = 32;
 

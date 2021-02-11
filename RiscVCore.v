@@ -182,10 +182,9 @@ assign debug_a = bus_a;
 assign debug_b = bus_b;
 assign debug_c = bus_c;
 
-assign instr_finish = T_rst || T_rst2 || (T == `T_MAX);
-
 // ((instr_type == 5) && !branch_taken && (T == 3'd3)) || 
 wire T_rst2 = ((opcode == 7'b0010011) && (rd == 5'b0));
+assign instr_finish = T_rst || T_rst2 || (T == `T_MAX);
 always@ (negedge clk)
 begin 
 	if (rst || instr_finish) T <= 0;
