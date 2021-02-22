@@ -39,10 +39,9 @@ SSRAM (without UAM) | AlignedRAM.v
 - DE10-Lite (12.5MHz)
 
 ## TODO (priority: top=highest)
+- Writing a bootloader
 - Finding bugs and fixing them
 - Documentation and Comments
-- Adding GPIO pins
-- Writing a boot loader
 - Add DDR2 SDR-SDRAM Controller
 - More Useful README
 - Extending the architecture
