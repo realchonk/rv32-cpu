@@ -28,5 +28,15 @@ RAM #(
 	.size(size),
 	.clk(clk)
 );
+AlignedRAM #(
+	.ADDR(32'h2000_0000),
+	.SIZE(256)
+) aram (
+	.addr(addr),
+	.data(data),
+	.rw(rw),
+	.size(size),
+	.clk(clk)
+);
 
 endmodule

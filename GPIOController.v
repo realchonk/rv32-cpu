@@ -71,7 +71,7 @@ wire select = ((addr - ADDR) & 4) == 4;
 `declare_pin(13);
 `declare_pin(14);
 `declare_pin(15);
-`declare_pin(16);
+/*`declare_pin(16);
 `declare_pin(17);
 `declare_pin(18);
 `declare_pin(19);
@@ -86,7 +86,7 @@ wire select = ((addr - ADDR) & 4) == 4;
 `declare_pin(28);
 `declare_pin(29);
 `declare_pin(30);
-`declare_pin(31);
+`declare_pin(31);*/
 `undef declare_pin
 
 endmodule

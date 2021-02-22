@@ -66,6 +66,6 @@ assign data = (enabled && !rw && (size != 2'b00)) ? buffer : 32'bz;
 // /*38*/ assign rom[32'h0e] = 32'h00000013;	// 
 // /*3c*/ assign rom[32'h0f] = 32'h00100073; // ebreak/hlt
 
-initial $readmemh("/home/benni/Dokumente/Schule/sfz/vm/test/prog.hex", rom);
+initial $readmemh("/home/benni/Documents/Schule/sfz/vm/test/prog.hex", rom);
 
 endmodule

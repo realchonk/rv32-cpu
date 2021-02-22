@@ -25,6 +25,7 @@ ROM | InstructionROM.v
 LEDs & Switches | IOController.v
 4x 7 Segment Display | SevenSegmentController.v
 32x GPIO Pins | GPIOController.v
+SSRAM (without UAM) | AlignedRAM.v
 
 ## Known differences from the specification
 - FENCE and ECALL are NOPs

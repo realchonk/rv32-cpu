@@ -23,7 +23,7 @@
 `define ENABLE_SW
 //`define ENABLE_VGA
 //`define ENABLE_ACCELEROMETER
-//`define ENABLE_ARDUINO
+`define ENABLE_ARDUINO
 `define ENABLE_GPIO
 
 module DE10_LITE_Golden_Top(
@@ -132,7 +132,7 @@ ClockDivider clk_div(
 	.clk_out(pre_clk),
 	.rst(rst)
 );
-defparam clk_div.DIVISOR = 100_000;
+defparam clk_div.DIVISOR = 1_000_000;
 defparam clk_div.FIRST_EDGE = 1;
 assign base_clk = pre_clk & !hlt;
 
@@ -218,7 +218,7 @@ GPIOController #(.ADDR(32'h8000_0010)) gpio (
 	.size(mem_size),
 	.rw(mem_rw),
 	.clk(mem_clk),
-	.gpio(GPIO)
+	.gpio(ARDUINO_IO)
 );
 
 // Assignments
